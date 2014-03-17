@@ -19,10 +19,6 @@ class ApplicationsModule(manage.PtahModule):
     def __getitem__(self, key):
         for id, factory in ptahcms.get_app_factories().items():
             if factory.name == key:
-                request = self.request
-                request.request_iface = request.registry.getUtility(
-                    IRouteRequest, name=MANAGE_APP_ROUTE)
-                request.app_factory = factory
                 app = factory()
                 app.__parent__ = self
                 app.__root_path__ = '/ptah-manage/apps/%s/'%app.__name__
@@ -36,7 +32,7 @@ class ApplicationsModule(manage.PtahModule):
 
 @view_config(
     context=ApplicationsModule,
-    renderer=ptah.layout('ptahcms-manage:apps.lt'))
+    renderer=ptah.layout('ptahcms-manage:apps.lt', 'ptah-manage'))
 
 class ApplicationsModuleView(ptah.View):
     """ Applications module default view """
@@ -51,8 +47,7 @@ class ApplicationsModuleView(ptah.View):
 
 @view_config(
     context=ptahcms.IApplicationRoot,
-    route_name=MANAGE_APP_ROUTE,
-    renderer=ptah.layout("ptahcms-manage:apps-contentview.lt"))
+    renderer=ptah.layout('ptahcms-manage:apps-contentview.lt', 'ptah-manage'))
 
 class ViewForm(form.Form):
 
@@ -73,8 +68,7 @@ class ViewForm(form.Form):
 @view_config(
     name='sharing.html',
     context=ptahcms.IContent,
-    route_name=MANAGE_APP_ROUTE,
-    renderer=ptah.layout('ptahcms-manage:apps-sharing.lt'))
+    renderer=ptah.layout('ptahcms-manage:apps-sharing.lt', 'ptah-manage'))
 
 class SharingForm(form.Form):
     """ Sharing form """

@@ -1,3 +1,8 @@
+<div class="page-header">
+  <h1>Application: ${context.title}</h1>
+</div>
+
+
 <h3>Attributes</h3>
 
 <table class="table table-striped">
